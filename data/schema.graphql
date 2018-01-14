@@ -1,7 +1,17 @@
-type Person {
+type Homeworld {
   name: String
 }
 
+type Person {
+  name: String
+  hair_color: String
+  birthYear: String
+  gender: String
+  mass: Int
+  height: Int
+  homeworld: Homeworld
+}
+
 type Query {
-  allFighters: [Person]
+  allPeople: [Person]
 }

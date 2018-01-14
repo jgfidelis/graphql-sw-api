@@ -11,56 +11,43 @@ import {
 
 import fetch from 'node-fetch'
 
+const HomeworldType = new GraphQLObjectType({
+  name: 'Homeworld',
+  fields: () => ({
+    name: { type: GraphQLString}
+  })
+});
+
 const PersonType = new GraphQLObjectType({
   name: 'Person',
   fields: () => ({
-    name: {
+    name: { type: GraphQLString },
+    hair_color: {
       type: GraphQLString,
-      resolve: person => person.name
+      resolve: person => person.hair_color
+    },
+    birthYear: {
+      type: GraphQLString,
+      resolve: person => person.birth_year
+    },
+    gender: { type: GraphQLString },
+    mass: { type: GraphQLInt },
+    height: { type: GraphQLInt },
+    homeworld: {
+      type: HomeworldType,
+      resolve: (person) => {
+        return fetch(person.homeworld)
+          .then(res => res.json())
+          .then(json => json)
+      }
     }
   })
-})
-
-// const FighterType = new GraphQLObjectType({
-//   name: 'Fighter',
-//   fields: () => ({
-//     id: globalIdField('Fighter'),
-//     _id: {
-//       type: GraphQLInt,
-//       resolve: fighter => fighter.id
-//     },
-//     profileImage: {
-//       type: GraphQLString,
-//       resolve: fighter => fighter.profile_image
-//     },
-//     firstName: {
-//       type: GraphQLString,
-//       resolve: fighter => fighter.first_name
-//     },
-//     lastName: {
-//       type: GraphQLString,
-//       resolve: fighter => fighter.last_name
-//     },
-//     nickname: { type: GraphQLString },
-//     weightClass: {
-//       type: GraphQLString,
-//       resolve: fighter => fighter.weight_class
-//     },
-//     wins: { type: GraphQLInt },
-//     losses: { type: GraphQLInt },
-//     draws: { type: GraphQLInt },
-//     beltThumbnail: {
-//       type: GraphQLString,
-//       resolve: fighter => fighter.belt_thumbnail
-//     },
-//     link: { type: GraphQLString }
-//   })
-// })
+});
 
 const QueryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
-    allFighters: {
+    allPeople: {
       type: new GraphQLList(PersonType),
       resolve: async () => {
     		const resp = await fetch('https://swapi.co/api/people/');

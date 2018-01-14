@@ -13,10 +13,12 @@ Live demo [here](https://graphql-sw-api.now.sh/).
 ## Installation
 ```
 $ yarn install
+$ yarn build
 ```
 or
 ```
 $ npm install
+$ npm build
 ```
 
 ## Running
