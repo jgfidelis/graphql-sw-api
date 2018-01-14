@@ -1,14 +1,14 @@
 # graphql-ufc-api
 
-GraphQL Server for UFC's public API.
+GraphQL Server for Star War's public API.
 
-The data is fetched from UFC's public API: [http://ufc-data-api.ufc.com/api/v3/iphone/fighters/](http://ufc-data-api.ufc.com/api/v3/iphone/fighters/).
+The data is fetched from Star War's public API: [https://swapi.co/api/people/](https://swapi.co/api/people/).
 
 ## React Native + Relay Modern
 The app that uses this server is [https://github.com/jgcmarins/react-native-relay-graphql-example](https://github.com/jgcmarins/react-native-relay-graphql-example).
 
 ## Try it
-Live demo [here](https://graphql-ufc-api.now.sh/).
+Live demo [here](https://graphql-sw-api.now.sh/).
 
 ## Installation
 ```
@@ -35,4 +35,4 @@ graphql
 ```
 
 ## LICENSE
-[MIT](https://github.com/jgcmarins/rn-top-ufc-fighters/blob/master/LICENSE)
+[MIT](https://github.com/jgfidelis/graphql-sw-api/blob/master/LICENSE)
