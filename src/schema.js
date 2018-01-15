@@ -22,7 +22,7 @@ const PersonType = new GraphQLObjectType({
   name: 'Person',
   fields: () => ({
     name: { type: GraphQLString },
-    hair_color: {
+    hairColor: {
       type: GraphQLString,
       resolve: person => person.hair_color
     },
@@ -50,9 +50,16 @@ const QueryType = new GraphQLObjectType({
     allPeople: {
       type: new GraphQLList(PersonType),
       resolve: async () => {
-    		const resp = await fetch('https://swapi.co/api/people/');
-    		const data = await resp.json();
-    		return data.results;
+        var results = [];
+        var i;
+        var url = 'https://swapi.co/api/people/'
+        while (!!url) {
+          const resp = await fetch(url);
+          const data = await resp.json();
+          url = data.next;
+          results = [...results, ...data.results];
+        }
+        return results;
   	  }
     }
   })
