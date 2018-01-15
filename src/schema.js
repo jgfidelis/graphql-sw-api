@@ -31,8 +31,30 @@ const PersonType = new GraphQLObjectType({
       resolve: person => person.birth_year
     },
     gender: { type: GraphQLString },
-    mass: { type: GraphQLInt },
-    height: { type: GraphQLInt },
+    mass: { type: GraphQLInt,
+            resolve: (person) => {
+              if (person.mass == "unknown") {
+                return -1;
+              }
+              if (person.mass % 1 === 0) {
+                return person.mass
+              } else {
+                return parseInt(person.mass.replace(/,/g, ''), 10)
+              }
+          }
+    },
+    height: { type: GraphQLInt,
+            resolve: (person) => {
+              if (person.height == "unknown") {
+                return -1;
+              }
+              if (person.mass % 1 === 0) {
+                return person.height
+              } else {
+                return parseInt(person.height.replace(/,/g, ''), 10)
+              }
+            }
+    },
     homeworld: {
       type: HomeworldType,
       resolve: (person) => {
