@@ -11,13 +11,6 @@ import {
 
 import fetch from 'node-fetch'
 
-const HomeworldType = new GraphQLObjectType({
-  name: 'Homeworld',
-  fields: () => ({
-    name: { type: GraphQLString}
-  })
-});
-
 const PersonType = new GraphQLObjectType({
   name: 'Person',
   fields: () => ({
@@ -56,11 +49,32 @@ const PersonType = new GraphQLObjectType({
             }
     },
     homeworld: {
-      type: HomeworldType,
-      resolve: (person) => {
-        return fetch(person.homeworld)
-          .then(res => res.json())
-          .then(json => json)
+      type: GraphQLString,
+      resolve: async (person) => {
+        const resp = await fetch(person.homeworld);
+        const data = await resp.json();
+        return data.name
+      }
+    },
+    films: {
+      type: new GraphQLList(GraphQLString),
+      resolve: async (person) => {
+        const result = [];
+        var i;
+        for (i =0; i < person.films.length; i++) {
+          const resp = await fetch(person.films[i]);
+          const data = await resp.json();
+          result.push(data.title)
+        }
+        return result
+      }
+    },
+    species: {
+      type: GraphQLString,
+      resolve: async (person) => {
+        const resp = await fetch(person.species[0]);
+        const data = await resp.json();
+        return data.name
       }
     }
   })
