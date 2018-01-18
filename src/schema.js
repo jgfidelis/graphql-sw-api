@@ -72,6 +72,9 @@ const PersonType = new GraphQLObjectType({
     species: {
       type: GraphQLString,
       resolve: async (person) => {
+        if (person.species.length == 0) {
+          return "Unknown";
+        }
         const resp = await fetch(person.species[0]);
         const data = await resp.json();
         return data.name
@@ -97,6 +100,17 @@ const QueryType = new GraphQLObjectType({
         }
         return results;
   	  }
+    },
+    peoplePage: {
+      type: new GraphQLList(PersonType),
+      args: {
+        page: {type: GraphQLInt}
+      },
+      resolve: async (obj, args, context) => {
+        const resp = await fetch('https://swapi.co/api/people/?page='+args.page);
+        const data = await resp.json();
+        return data.results;
+      }
     }
   })
 })
@@ -104,3 +118,9 @@ const QueryType = new GraphQLObjectType({
 export const schema = new GraphQLSchema({
   query: QueryType
 })
+
+// {
+//   peoplePage(page:3) {
+//    name
+//  }
+// }
